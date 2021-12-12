@@ -80,13 +80,34 @@ function changeHP(player, damage) {
     player.hp = (player.hp > damage) ? player.hp - damage : 0;
     $life.style.width = player.hp + '%'
 }
+function playerWin() {
+    if (player1.hp !=0 && player2.hp !=0) {
+        return;
+    }
+    console.log('win')
+    $winLabel = createElement('.loseTitle');
+    if (player1.hp === 0 ) {
+        $winLabel.innerText = player2.fighter.name + ' wins!';
+    }
+    else {
+        $winLabel.innerText = player1.fighter.name + ' wins!';
+    }
+    $arena.appendChild($winLabel);
+    $randomButton.disabled = true;
+
+}
 $arena.appendChild(
     createPlayer(player1)
     );
 $arena.appendChild(
     createPlayer(player2)
 )
+// Кто атакует первый
+let currentPlayer = (getRandInt(1,2)===1)?player1:player2;
+
 $randomButton.addEventListener('click', function(){
-    changeHP(player1, 10);
-    changeHP(player2, 15);
-})
+    changeHP(currentPlayer, getRandInt(1,20));
+    // меняем текущего игрока
+    currentPlayer = (currentPlayer === player1) ? player2 : player1;
+    playerWin();
+});
