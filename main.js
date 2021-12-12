@@ -17,6 +17,7 @@ const FIGHTERS =  {
     }
 }
 const $arena = document.querySelector('.arenas');
+const $randomButton = document.querySelector('.button');
 const player1 = {
     player: 1,
     fighter: FIGHTERS.scorpion,
@@ -74,10 +75,18 @@ function createPlayer(player) {
 
     return $player;
 }
-
+function changeHP(player, damage) {
+    const $life = document.querySelector('.player' + player.player + ' .life');
+    player.hp = (player.hp > damage) ? player.hp - damage : 0;
+    $life.style.width = player.hp + '%'
+}
 $arena.appendChild(
     createPlayer(player1)
     );
 $arena.appendChild(
     createPlayer(player2)
 )
+$randomButton.addEventListener('click', function(){
+    changeHP(player1, 10);
+    changeHP(player2, 15);
+})
